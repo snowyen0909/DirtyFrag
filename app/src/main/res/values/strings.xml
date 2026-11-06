@@ -58,4 +58,5 @@
     <string name="manager">Manager</string>
     <string name="hide_card">Hide card</string>
     <string name="open_su_manager">Open SU manager</string>
+    <string name="open">Open</string>
 </resources>
