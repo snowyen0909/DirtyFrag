@@ -56,4 +56,6 @@
     <string name="save_log">Save log to Downloads</string>
     <string name="rooted">Rooted</string>
     <string name="manager">Manager</string>
+    <string name="hide_card">Hide card</string>
+    <string name="open_su_manager">Open SU manager</string>
 </resources>
