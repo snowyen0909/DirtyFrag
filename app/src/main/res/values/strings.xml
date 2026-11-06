@@ -54,4 +54,6 @@
     <string name="supported">Supported</string>
     <string name="unsupported">Unsupported</string>
     <string name="save_log">Save log to Downloads</string>
+    <string name="rooted">Rooted</string>
+    <string name="manager">Manager</string>
 </resources>
