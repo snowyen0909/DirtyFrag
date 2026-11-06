@@ -54,4 +54,6 @@
     <string name="supported">支援</string>
     <string name="unsupported">不支援</string>
     <string name="save_log">將紀錄儲存至下載資料夾</string>
+    <string name="rooted">已取得 Root</string>
+    <string name="manager">管理器</string>
 </resources>
