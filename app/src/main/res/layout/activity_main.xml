@@ -572,7 +572,7 @@
         android:background="@drawable/bg_pill"
         android:backgroundTint="#FF2E2E30"
         android:clickable="true"
-        android:contentDescription="Open SU manager"
+        android:contentDescription="@string/open_su_manager"
         android:elevation="12dp"
         android:enabled="false"
         android:focusable="true"
