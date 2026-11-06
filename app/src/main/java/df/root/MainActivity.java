@@ -227,28 +227,28 @@ public class MainActivity extends Activity implements IReporter {
         // v4.0 renamed every marker and dropped the "env adopted" / "partitions set
         // ro" confirmations, so these steps are re-keyed to the new table.
         if (t.startsWith("kernel module: launching bootstrap")) {
-            setSeg2(0.14f, "Verification", 0xFFFFFFFF);
+            setSeg2(0.14f, getString(R.string.verification), 0xFFFFFFFF);
         }
         if (t.startsWith("bootstrap: loading app preferences file")) {
-            setSeg2(0.28f, "Verification", 0xFFFFFFFF);
+            setSeg2(0.28f, getString(R.string.verification), 0xFFFFFFFF);
         }
         if (t.startsWith("bootstrap: cloning zygote env")
                 || t.startsWith("bootstrap: WARNING - clone zygote env failed")) {
-            setSeg2(0.42f, "Verification", 0xFFFFFFFF);
+            setSeg2(0.42f, getString(R.string.verification), 0xFFFFFFFF);
         }
         if (t.startsWith("bootstrap: setting partitions ro")
                 || t.startsWith("bootstrap: WARNING - set partitions ro failed")) {
-            setSeg2(0.57f, "Verification", 0xFFFFFFFF);
+            setSeg2(0.57f, getString(R.string.verification), 0xFFFFFFFF);
         }
         if (t.startsWith("bootstrap: disabling ksu modules")) {
-            setSeg2(0.71f, "Verification", 0xFFFFFFFF);
+            setSeg2(0.71f, getString(R.string.verification), 0xFFFFFFFF);
         }
         if (t.startsWith("bootstrap: starting SU daemon")) {
-            setSeg2(0.85f, "Verification", 0xFFFFFFFF);
+            setSeg2(0.85f, getString(R.string.verification), 0xFFFFFFFF);
         }
         if (t.equals("ksud start: SUCCESS")) {
             setSeg1(1f);
-            setSeg2(1f, "Verified", 0xFFFFFFFF);
+            setSeg2(1f, getString(R.string.verified), 0xFFFFFFFF);
         }
         if (exploitPhase.equals("cleanup") && t.startsWith("restoring")) {
             cleanupSteps++;
@@ -294,7 +294,7 @@ public class MainActivity extends Activity implements IReporter {
         boolean hasRun = logBuffer.length() > 0
                 || (lastLogFile != null && lastLogFile.exists());
         // The log lives under its own card, so a collapsed card takes the log
-        // with it - "Reset UI Layout" brings both back.
+        // with it - getString(R.string.reset_ui) brings both back.
         logAllowed = advancedLog && hasRun && !hiddenCards.contains("log");
         // VIS4: the log hangs off the advanced-log card, so the window the stack
         // keeps for it follows the log. The stack then does the placing - the
@@ -533,8 +533,8 @@ public class MainActivity extends Activity implements IReporter {
                 .getBoolean("disable_modules", false));
         moduleRefresh = false;
         binding.modulesSubtitle.setText(binding.switchModules.isChecked()
-                ? "Enabled - Active at next reroot"
-                : "Disabled - No Modules on reroot");
+                ? getString(R.string.modules_enabled)
+                : getString(R.string.modules_disabled));
         binding.switchModules.setOnCheckedChangeListener((btn, on) -> {
             if (moduleRefresh) return;
             btn.performHapticFeedback(HapticFeedbackConstants.KEYBOARD_TAP);
@@ -624,25 +624,25 @@ public class MainActivity extends Activity implements IReporter {
                 && last.toLowerCase().contains("=== exploit failed");
         if (rootedNow || lastSuccess) {
             binding.twoStep.setSeg1(1f, "100%");
-            binding.twoStep.setSeg2(1f, "Verified", 0xFFFFFFFF);
+            binding.twoStep.setSeg2(1f, getString(R.string.verified), 0xFFFFFFFF);
         } else if (lastFailed) {
             setFailedState();
         }
 
         binding.btnRun.setOnClickListener(v -> {
             if (running) return;
-            // Two-tap confirmation: first tap arms ("Are you sure"), second runs.
+            // Two-tap confirmation: first tap arms (getString(R.string.are_you_sure)), second runs.
             if (!runArmed) {
                 runArmed = true;
                 v.performHapticFeedback(HapticFeedbackConstants.KEYBOARD_TAP);
-                binding.btnRun.setText("Are you sure");
+                binding.btnRun.setText(getString(R.string.are_you_sure));
                 return;
             }
             runArmed = false;
             v.performHapticFeedback(HapticFeedbackConstants.KEYBOARD_TAP);
             running = true;
             binding.btnRun.setEnabled(false);
-            binding.btnRun.setText("Running");
+            binding.btnRun.setText(getString(R.string.running));
             // Same dark greyed-out styling as the Rooted state.
             binding.btnRun.setTextColor(0xFF6E6E6E);
             binding.btnRun.setBackgroundTintList(ColorStateList.valueOf(0xFF1F1F1F));
@@ -700,7 +700,7 @@ public class MainActivity extends Activity implements IReporter {
             // -- Open Github Page row --
             TextView ghRow = new TextView(this);
             ghRow.setBackgroundResource(R.drawable.menu_row_highlight);
-            ghRow.setText("Open Github Page");
+            ghRow.setText(getString(R.string.open_github));
             ghRow.setGravity(android.view.Gravity.CENTER_VERTICAL | android.view.Gravity.START);
             ghRow.setPadding((int) (20 * md), 0, 0, 0);
             ghRow.setTextColor(0xFFE8E8E8);
@@ -723,7 +723,7 @@ public class MainActivity extends Activity implements IReporter {
             //    word in it. --
             TextView rlRow = new TextView(this);
             rlRow.setBackgroundResource(R.drawable.menu_row_highlight);
-            rlRow.setText("Reset UI Layout");
+            rlRow.setText(getString(R.string.reset_ui));
             rlRow.setGravity(android.view.Gravity.CENTER_VERTICAL | android.view.Gravity.START);
             rlRow.setPadding((int) (20 * md), 0, 0, 0);
             rlRow.setTextColor(0xFFE8E8E8);
@@ -753,7 +753,7 @@ public class MainActivity extends Activity implements IReporter {
             exRow.setPadding((int) (20 * md), 0, (int) (20 * md), 0);
             exRow.setBackgroundResource(R.drawable.menu_row_highlight);
             TextView exText = new TextView(this);
-            exText.setText("Expert Mode");
+            exText.setText(getString(R.string.expert_mode));
             exText.setTextColor(0xFFE8E8E8);
             exText.setTextSize(android.util.TypedValue.COMPLEX_UNIT_SP, 15);
             exRow.addView(exText, new android.widget.LinearLayout.LayoutParams(
@@ -842,8 +842,8 @@ public class MainActivity extends Activity implements IReporter {
      *  disabled toggles, titles suffixed with (Expert). */
     private void applyExpertMode() {
         boolean ok = expertMode;
-        binding.tvAutorunTitle.setText(ok ? "Autorun" : "Autorun (Expert)");
-        binding.tvRebootTitle.setText(ok ? "Auto reboot" : "Auto reboot (Expert)");
+        binding.tvAutorunTitle.setText(ok ? getString(R.string.autorun) : getString(R.string.autorun_expert));
+        binding.tvRebootTitle.setText(ok ? getString(R.string.auto_reboot) : getString(R.string.auto_reboot_expert));
         binding.tvAutorunTitle.setTextColor(ok ? 0xFFFFFFFF : 0xFF6E6E6E);
         binding.tvAutorunDesc.setTextColor(ok ? 0xFF9E9E9E : 0xFF5A5A5A);
         binding.tvRebootTitle.setTextColor(ok ? 0xFFFFFFFF : 0xFF6E6E6E);
@@ -1080,7 +1080,7 @@ public class MainActivity extends Activity implements IReporter {
     }
 
     /** VIS1.4: collapse a card out of the stack for good. The SU Manager card
-     *  refuses to be hidden (RULES 3); "Reset UI Layout" brings the rest back. */
+     *  refuses to be hidden (RULES 3); getString(R.string.reset_ui) brings the rest back. */
     private void hideCard(DraggableCardView card) {
         String key = keyForCard(card);
         if (key == null || !card.isHideable() || hiddenCards.contains(key)) return;
@@ -1223,8 +1223,8 @@ public class MainActivity extends Activity implements IReporter {
         // The subtitle is the whole message. Nothing is announced over the bottom
         // of the screen for a switch the user can already see move.
         binding.modulesSubtitle.setText(on
-                ? "Enabled - Active at next reroot"
-                : "Disabled - No Modules on reroot");
+                ? getString(R.string.modules_enabled)
+                : getString(R.string.modules_disabled));
     }
 
     // ---- SU manager picker --------------------------------------------------
@@ -1294,7 +1294,7 @@ public class MainActivity extends Activity implements IReporter {
 
         if (apps.isEmpty()) {
             TextView none = new TextView(this);
-            none.setText("No app with libksud.so found");
+            none.setText(getString(R.string.no_su_manager));
             none.setGravity(android.view.Gravity.CENTER_VERTICAL | android.view.Gravity.START);
             none.setPadding((int) (20 * md), (int) (12 * md), (int) (20 * md), (int) (12 * md));
             none.setTextColor(0xFF6E6E6E);
@@ -1421,7 +1421,7 @@ public class MainActivity extends Activity implements IReporter {
         }
         boolean ok = suManagerPkg != null;
         binding.btnRun.setEnabled(ok);
-        binding.btnRun.setText("Run exploit");
+        binding.btnRun.setText(getString(R.string.run_exploit));
         binding.btnRun.setTextColor(ok ? 0xFFE0E0E0 : 0xFF6E6E6E);
         binding.btnRun.setBackgroundTintList(ColorStateList.valueOf(ok ? 0xFF7A7A7A : 0xFF1F1F1F));
         binding.btnRun.setStrokeColor(
@@ -1571,7 +1571,7 @@ public class MainActivity extends Activity implements IReporter {
         // this reading already knows, which is the same mistake the write path refuses to make.
         boolean canAsk = D2Writer.suPresent() && r.supported;
         D2Writer.Vault vault = canAsk ? D2Writer.status(this) : loadVault(sp);
-        // The "Autorun Writer" want, honoured here as well as at boot. BootReceiver is the place
+        // The getString(R.string.autorun_writer) want, honoured here as well as at boot. BootReceiver is the place
         // the byte matters most - a flash is done in the boot the write happens in - but honouring
         // it there takes three things to line up: the receiver switched on, the exploit succeeding
         // unattended, and the boot broadcast reaching this app at all. The last one is not ours to
@@ -1592,7 +1592,7 @@ public class MainActivity extends Activity implements IReporter {
     }
 
     /**
-     * The write the "Autorun Writer" switch asks for, run against a root that is already there.
+     * The write the getString(R.string.autorun_writer) switch asks for, run against a root that is already there.
      *
      * <p>Four things have to be true before a byte is written nobody pressed for: there is a vault
      * to ask (a su on the path and firmware that gates download mode), the owner switched the want
@@ -1747,7 +1747,7 @@ public class MainActivity extends Activity implements IReporter {
 
     /** What the owner asked byte 2 to be, valid for this boot only. */
     private static final String PREF_D2_ARMED = "d2_at_command";
-    /** The opt-in behind the "Autorun Writer" row: ask for the same write again at boot. Read by
+    /** The opt-in behind the getString(R.string.autorun_writer) row: ask for the same write again at boot. Read by
      *  BootReceiver, which is the only thing at boot that can supply the root the write needs.
      *  This one is meant to outlive a reboot - everything else here is not. The key keeps the older
      *  name; the row it comes from was "Re-arm after boot" until the card put the writer first. */
@@ -1820,7 +1820,7 @@ public class MainActivity extends Activity implements IReporter {
      * is already reaching for.
      *
      * <p>Below the rows sit the two things that can be set from here: the write itself, and the
-     * automation that asks for it again on the next boot ("Autorun Writer"). Both are OneUI
+     * automation that asks for it again on the next boot (getString(R.string.autorun_writer)). Both are OneUI
      * switches, on the card whether or not Expert Mode is on, inert and labelled "(Expert)" until
      * it is, and inert and labelled "(no gate)" on firmware that never gated download mode - so a
      * control is visible before it is armed and says which kind of not-live it is. The writer's
@@ -1865,13 +1865,13 @@ public class MainActivity extends Activity implements IReporter {
         box.setBackgroundResource(R.drawable.popup_bg);
         box.setPadding(0, (int) (6 * md), 0, (int) (6 * md));
 
-        box.addView(odinRow("DL/Recovery", dlRecoveryLabel(shown, vault), verdictValue), odinRowLp(md));
+        box.addView(odinRow(getString(R.string.dl_recovery), dlRecoveryLabel(shown, vault), verdictValue), odinRowLp(md));
         box.addView(odinSep(md), odinSepLp(md));
-        box.addView(odinRow("Lockscreen", shown.lockscreenLabel()), odinRowLp(md));
+        box.addView(odinRow(getString(R.string.lockscreen), localizedStatusLabel(shown.lockscreenLabel())), odinRowLp(md));
         box.addView(odinSep(md), odinSepLp(md));
-        box.addView(odinRow("Maintenance Mode", shown.maintenanceLabel()), odinRowLp(md));
+        box.addView(odinRow(getString(R.string.maintenance_mode), localizedStatusLabel(shown.maintenanceLabel())), odinRowLp(md));
         box.addView(odinSep(md), odinSepLp(md));
-        box.addView(odinRow("Device", shown.deviceLabel()), odinRowLp(md));
+        box.addView(odinRow(getString(R.string.device), localizedStatusLabel(shown.deviceLabel())), odinRowLp(md));
 
         // Whether either switch below can be moved at all. Expert Mode arms them; the firmware has
         // to have something for them to do. A device whose firmware never gates download mode has
@@ -1889,7 +1889,7 @@ public class MainActivity extends Activity implements IReporter {
         box.addView(odinSep(md), odinSepLp(md));
         final OneUiSwitch[] writeSw = new OneUiSwitch[1];
         final TextView[] writeName = new TextView[1];
-        box.addView(odinToggleRow(switchName("Recovery Writer", writerLive, shown.supported),
+        box.addView(odinToggleRow(switchName(getString(R.string.recovery_writer), writerLive, shown.supported),
                 vault != null && vault.ok && vault.atCommand == 1, writerLive,
                 writeSw, writeName), odinRowLp(md));
         if (writerLive) {
@@ -1898,10 +1898,10 @@ public class MainActivity extends Activity implements IReporter {
                 // a root manager that is not answering must not be flippable into a loop of su
                 // calls. Its answer is the only thing allowed to move the thumb again.
                 writeSw[0].setEnabled(false);
-                writeName[0].setText(want ? "Writing flag ..." : "Clearing flag ...");
+                writeName[0].setText(want ? getString(R.string.writing_flag) : getString(R.string.clearing_flag));
                 writeDmcFlag(want, answered -> {
                     verdictValue[0].setText(dlRecoveryLabel(shown, answered));
-                    writeName[0].setText(switchName("Recovery Writer", writerLive, shown.supported));
+                    writeName[0].setText(switchName(getString(R.string.recovery_writer), writerLive, shown.supported));
                     // What the vault answered, not what was asked for. The firmware-that-does-not
                     // -gate path hands back the vault as it was, which before a read is no vault
                     // at all - in which case the honest position is off.
@@ -1936,8 +1936,8 @@ public class MainActivity extends Activity implements IReporter {
         // owner has costs one suffix on a row they are already reading, and saves them finding out
         // by rebooting.
         final boolean wantAuto = sp.getBoolean(PREF_D2_AUTO, false);
-        String autoName = switchName("Autorun Writer", writerLive, shown.supported);
-        if (wantAuto && writerLive && !bootPathEnabled()) autoName += " (at reroot)";
+        String autoName = switchName(getString(R.string.autorun_writer), writerLive, shown.supported);
+        if (wantAuto && writerLive && !bootPathEnabled()) autoName += getString(R.string.at_reroot_suffix);
         box.addView(odinToggleRow(autoName,
                 wantAuto, writerLive, autoSw, null), odinRowLp(md));
         autoSw[0].setOnCheckedChangeListener((view, checked) ->
@@ -2171,10 +2171,20 @@ public class MainActivity extends Activity implements IReporter {
      * writer switch controls is not given a row of its own any more; its thumb is that byte, on the
      * same card.
      */
-    private static String dlRecoveryLabel(D2Status.Result est, D2Writer.Vault v) {
-        if (!est.supported) return "Not gated here";
-        if (v != null && v.ok) return v.gated() ? "D2 Blocked" : "Allowed";
-        return "Unknown";
+    private String localizedStatusLabel(String value) {
+        if ("Yes".equals(value)) return getString(R.string.yes);
+        if ("No".equals(value)) return getString(R.string.no);
+        if ("On".equals(value)) return getString(R.string.on);
+        if ("Off".equals(value)) return getString(R.string.off);
+        if ("Supported".equals(value)) return getString(R.string.supported);
+        if ("Unsupported".equals(value)) return getString(R.string.unsupported);
+        return value;
+    }
+
+    private String dlRecoveryLabel(D2Status.Result est, D2Writer.Vault v) {
+        if (!est.supported) return getString(R.string.not_gated);
+        if (v != null && v.ok) return v.gated() ? getString(R.string.d2_blocked) : getString(R.string.allowed);
+        return getString(R.string.unknown);
     }
 
     /**
@@ -2184,23 +2194,23 @@ public class MainActivity extends Activity implements IReporter {
      * armed yet" and "will never be live here" is the difference between coming back later and
      * coming back never.
      */
-    private static String switchName(String base, boolean live, boolean supported) {
-        if (!supported) return base + " (no gate)";
-        return live ? base : base + " (Expert)";
+    private String switchName(String base, boolean live, boolean supported) {
+        if (!supported) return base + getString(R.string.no_gate_suffix);
+        return live ? base : base + getString(R.string.expert_suffix);
     }
 
 
-    /** Failure presentation: left bar label "Failure", right label "Reboot",
+    /** Failure presentation: left bar label getString(R.string.failure), right label getString(R.string.reboot),
      *  bars + labels red, run pill greyed out like the Running/Rooted state.
      *  The pill stays disabled because the vendor patch is page-cache only:
      *  retrying without rebooting would fail the same way. */
     private void setFailedState() {
         failedRun = true;
         binding.twoStep.setFailed(true);
-        binding.twoStep.setSeg1(seg1, "Failure");
-        binding.twoStep.setSeg2(1f, "Reboot", 0xFFE57373);
+        binding.twoStep.setSeg1(seg1, getString(R.string.failure));
+        binding.twoStep.setSeg2(1f, getString(R.string.reboot), 0xFFE57373);
         binding.btnRun.setEnabled(false);
-        binding.btnRun.setText("Run exploit");
+        binding.btnRun.setText(getString(R.string.run_exploit));
         binding.btnRun.setTextColor(0xFF6E6E6E);
         binding.btnRun.setBackgroundTintList(ColorStateList.valueOf(0xFF1F1F1F));
         binding.btnRun.setStrokeColor(ColorStateList.valueOf(0xFF1F1F1F));
@@ -2216,7 +2226,7 @@ public class MainActivity extends Activity implements IReporter {
         int bg = (rooted || !ok) ? 0xFF1F1F1F : 0xFF7A7A7A;
         int stroke = (rooted || !ok) ? 0xFF1F1F1F : 0xFFA6A6A6;
         binding.btnRun.setEnabled(ok);
-        binding.btnRun.setText(rooted ? "Rooted" : "Run exploit");
+        binding.btnRun.setText(rooted ? "Rooted" : getString(R.string.run_exploit));
         binding.btnRun.setTextColor(fg);
         binding.btnRun.setBackgroundTintList(ColorStateList.valueOf(bg));
         binding.btnRun.setStrokeColor(ColorStateList.valueOf(stroke));
@@ -2473,7 +2483,7 @@ public class MainActivity extends Activity implements IReporter {
                 boolean rooted = new File("/dev/df").exists();
                 if (rooted) {
                     setRootedState(true);
-                    binding.twoStep.setSeg2(1f, "Verified", 0xFFFFFFFF);
+                    binding.twoStep.setSeg2(1f, getString(R.string.verified), 0xFFFFFFFF);
                 } else {
                     setFailedState();
                     setRootedState(false);
