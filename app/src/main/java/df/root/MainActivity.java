@@ -949,7 +949,7 @@ public class MainActivity extends Activity implements IReporter {
             b.setImageTintList(ColorStateList.valueOf(0xFF3A3A3C));
             b.setScaleType(android.widget.ImageView.ScaleType.CENTER);
             b.setPadding(0, 0, 0, 0);
-            b.setContentDescription("Hide card");
+            b.setContentDescription(getString(R.string.hide_card));
             // Above the lifted card (18dp), below the menu dim layer (30dp).
             b.setElevation(26 * md);
             b.setVisibility(View.GONE);
