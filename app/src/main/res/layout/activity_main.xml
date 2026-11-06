@@ -590,7 +590,7 @@
             android:layout_gravity="start|center_vertical"
             android:layout_marginStart="22dp"
             android:alpha="0"
-            android:text="@string/su_manager"
+            android:text="@string/manager"
             android:textColor="#FF1F1F1F"
             android:textSize="14sp" />
 
@@ -600,7 +600,7 @@
             android:layout_height="20dp"
             android:layout_gravity="end|center_vertical"
             android:layout_marginEnd="17dp"
-            android:contentDescription="@string/select"
+            android:contentDescription="@string/open"
             android:src="@drawable/ic_chevron" />
 
     </FrameLayout>
