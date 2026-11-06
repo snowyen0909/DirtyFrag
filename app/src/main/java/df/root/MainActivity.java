@@ -2226,7 +2226,7 @@ public class MainActivity extends Activity implements IReporter {
         int bg = (rooted || !ok) ? 0xFF1F1F1F : 0xFF7A7A7A;
         int stroke = (rooted || !ok) ? 0xFF1F1F1F : 0xFFA6A6A6;
         binding.btnRun.setEnabled(ok);
-        binding.btnRun.setText(rooted ? "Rooted" : getString(R.string.run_exploit));
+        binding.btnRun.setText(rooted ? getString(R.string.rooted) : getString(R.string.run_exploit));
         binding.btnRun.setTextColor(fg);
         binding.btnRun.setBackgroundTintList(ColorStateList.valueOf(bg));
         binding.btnRun.setStrokeColor(ColorStateList.valueOf(stroke));
